@@ -1,0 +1,21 @@
+[
+ {
+  "allow_guest": 0,
+  "api_method": null,
+  "cron_format": null,
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Server Script",
+  "doctype_event": "Before Insert",
+  "enable_rate_limit": 0,
+  "event_frequency": "All",
+  "modified": "2024-04-03 10:56:11.368014",
+  "module": "Malti Customizations",
+  "name": "Modify Field in Selling Setting",
+  "rate_limit_count": 5,
+  "rate_limit_seconds": 86400,
+  "reference_doctype": null,
+  "script": "frappe.db.set_value(\n    \"DocField\", \n    {\"parent\": \"Selling Settings\", \"fieldname\": \"maintain_same_rate_action\"}, \n    \"depends_on\",\n    \"eval: (doc.validate_selling_price || doc.maintain_same_sales_rate)\"\n)\n\nfrappe.db.set_value(\n    \"DocField\", \n    {\"parent\": \"Selling Settings\", \"fieldname\": \"role_to_override_stop_action\"}, \n    \"depends_on\",\n    \"eval: ((doc.validate_selling_price || doc.maintain_same_sales_rate) && doc.maintain_same_rate_action == 'Stop')\"\n)\nfrappe.db.commit()",
+  "script_type": "Scheduler Event"
+ }
+]
